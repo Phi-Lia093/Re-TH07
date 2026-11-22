@@ -80,3 +80,6 @@ CMakeFiles/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# ---- Reference captures: keep the page, drop its asset bundle ----
+/ref/*_files/

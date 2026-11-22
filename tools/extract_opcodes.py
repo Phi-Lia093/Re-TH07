@@ -23,6 +23,16 @@ import sys
 INTERP_START = "undefined4 FUN_00410520(int param_1)"
 SWITCH_ANCHOR = "switch(iVar14) {"
 
+# The interpreter computes `iVar14 = (short)ip[1] - 1` where ip[1] is the
+# opcode, then `switch (iVar14)`.  Therefore:
+#   opcode 0        -> iVar14 == -1, no case matches, falls through to
+#                      caseD_7e (skip) == "nop", matching the reference table.
+#   opcode N (N>=1) -> case N-1
+# The highest case is 0xa0 (160) and it has no `break`, so it falls through to
+# caseD_7e as well; valid opcodes are 0..161.
+CASE_TO_OPCODE = 1
+MAX_CASE = 0xA0
+# Shared labels that act as handlers reached by several opcodes.
 CASE_RE = re.compile(r"^\s*case (0x[0-9a-fA-F]+|\d+):\s*$")
 PARAM_RE = re.compile(r"\((long long|int)\s*\*\)\s*local_c\[(\d+)\]")
 MASKVAL_RE = re.compile(r"\+ 10\)\s*&\s*(0x[0-9a-fA-F]+|\d+)\)")
