@@ -60,18 +60,46 @@ def find_switch(lines: list[str]) -> tuple[int, int]:
 
 
 def split_cases(lines: list[str], sw: int, end: int) -> dict[int, list[str]]:
-    """Map case index -> body lines. Shared labels get their body attached."""
-    cases: dict[int, list[str]] = {}
+    """Map case index -> body lines, resolving C fallthrough groups.
+
+    The decompiler emits grouped labels for opcodes that share one handler::
+
+        case 0x3f:
+        case 0x40:
+        case 0x41:
+          <shared body>
+          break;
+
+    Only the last label owns the body; the earlier ones fall through into it.
+    Naively splitting on every `case` line therefore yields empty bodies for
+    all but the last label, which is what hid opcodes 64-72.  Here, a label
+    with no body of its own inherits the body of the next label.
+    """
+    own: dict[int, list[str]] = {}
+    order: list[int] = []
     current: int | None = None
     for i in range(sw + 1, end):
         line = lines[i]
         m = CASE_RE.match(line)
         if m:
             current = int(m.group(1), 0)
-            cases[current] = []
+            own[current] = []
+            order.append(current)
             continue
         if current is not None:
-            cases[current].append(line)
+            own[current].append(line)
+
+    def is_empty(body: list[str]) -> bool:
+        return not any(s.strip() for s in body)
+
+    cases: dict[int, list[str]] = dict(own)
+    for pos, idx in enumerate(order):
+        if not is_empty(own[idx]):
+            continue
+        for nxt in order[pos + 1 :]:
+            if not is_empty(own[nxt]):
+                cases[idx] = own[nxt]
+                break
     return cases
 
 
