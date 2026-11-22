@@ -1,0 +1,82 @@
+# ============================================================
+# Re-TH07 — ignore rules
+# Never commit game assets, extracted data, or analysis DBs.
+# ============================================================
+
+# ---- Original game binaries / assets (copyrighted, never commit) ----
+/th07.exe
+/th07.dat
+/thbgm.dat
+/custom.exe
+/th07.exe.c
+
+# Any other Touhou game executables/data that may land here
+/th*.exe
+/th*.dat
+/th*.anm
+/th*.ecl
+/th*.std
+/th*.msg
+/th*.rpy
+/*.dll
+/*.pdb
+
+# ---- Extracted / decompiled artifacts (reproducible from tools/) ----
+/work/
+/out/
+/build/
+/dist/
+/tmp/
+/scratch/
+
+# ---- Ghidra project databases & exports ----
+*.gpr
+*.rep/
+*.gzf
+*.lock
+*.lock~
+*.idb
+*.i64
+*.imf
+/ghidra_project/
+/ghidra/export/
+
+# ---- thtk build (source tree is tracked separately below) ----
+/thtk-bin-*/
+/thtk/build/
+
+# ---- DSH sandbox recovery artifacts ----
+/.dsh-acl-recovery/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# ---- C/C++ build objects ----
+*.o
+*.obj
+*.a
+*.lib
+*.exp
+*.ilk
+*.pdb
+*.exe
+*.dll
+CMakeCache.txt
+CMakeFiles/
+
+# ---- Editors / OS ----
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
