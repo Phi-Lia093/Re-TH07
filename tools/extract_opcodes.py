@@ -32,11 +32,62 @@ SWITCH_ANCHOR = "switch(iVar14) {"
 # caseD_7e as well; valid opcodes are 0..161.
 CASE_TO_OPCODE = 1
 MAX_CASE = 0xA0
-# Shared labels that act as handlers reached by several opcodes.
 CASE_RE = re.compile(r"^\s*case (0x[0-9a-fA-F]+|\d+):\s*$")
 PARAM_RE = re.compile(r"\((long long|int)\s*\*\)\s*local_c\[(\d+)\]")
 MASKVAL_RE = re.compile(r"\+ 10\)\s*&\s*(0x[0-9a-fA-F]+|\d+)\)")
 GOTO_RE = re.compile(r"goto (switchD_0041073a_caseD_\w+|LAB_\w+);")
+# `(*(byte *)(local_c + 3) & 1)` reads the low byte of slot 3.
+BYTE_SLOT_RE = re.compile(r"\(\*\((?:byte|ushort|short|char) \*\)\(local_c \+ (\d+)\)")
+# A case body that hands the instruction pointer to a helper, which then reads
+# the slots itself as `*(T *)(instr + 0xNN)`.
+DELEGATE_RE = re.compile(r"(FUN_[0-9a-f]{8})\s*\(\s*[^;]*?\b(?:param_1|local_c)\b")
+HELPER_FIELD_RE = re.compile(r"\(\s*param_2\s*\+ (0x[0-9a-f]+|\d+)\s*\)")
+# A case may alias the first parameter slot: `local_1c = local_c + 3;` after
+# which `local_1c[k]` is slot 3+k.
+SLOT_ALIAS_RE = re.compile(r"(local_[0-9a-f]+)\s*=\s*local_c \+ (\d+);")
+HELPER_FLOAT_RE = re.compile(r"\bFUN_0040edf0\b")
+
+# helper name -> sorted slot offsets (byte offsets into the instruction) it reads
+HELPER_SLOTS: dict[str, list[int]] = {}
+# helper name -> True if it reads any parameter through the float accessor
+HELPER_FLOAT: dict[str, bool] = {}
+
+
+def register_helpers(lines: list[str]) -> None:
+    """Index every function that reads instruction slots through its 2nd arg.
+
+    Slot offsets are reported as byte offsets (`0xc`, `0x14`, ...) so the
+    caller can convert with slot = off // 4 - 1.
+    """
+    HELPER_SLOTS.clear()
+    HELPER_FLOAT.clear()
+    current: str | None = None
+    body: list[str] = []
+
+    def flush() -> None:
+        if not current:
+            return
+        offs = sorted({int(m.group(1), 0) for line in body
+                       for m in HELPER_FIELD_RE.finditer(line)})
+        offs = [o for o in offs if o >= 0xC]
+        if offs:
+            HELPER_SLOTS[current] = offs
+            HELPER_FLOAT[current] = any(HELPER_FLOAT_RE.search(l) for l in body)
+
+    for line in lines:
+        m = re.match(r"^[a-zA-Z_].*\b(FUN_[0-9a-f]{8})\(.*\)\s*$", line)
+        if m:
+            flush()
+            current = m.group(1)
+            body = []
+            continue
+        if current:
+            body.append(line)
+    flush()
+
+
+def float_helper(name: str) -> bool:
+    return HELPER_FLOAT.get(name, False)
 
 
 def load(path: str) -> list[str]:
@@ -117,26 +168,28 @@ def shared_label_bodies(lines: list[str], end: int) -> dict[str, list[str]]:
 def param_reads(body: list[str]) -> list[tuple[int, str, str]]:
     """Recover (bit, kind, slot) for each parameter read in a case body.
 
-    Two idioms appear in the export::
+    Three idioms appear in the export:
 
-        if ((*(ushort *)((int)local_c + 10) & MASK) == 0) {
-          local_x = local_c[SLOT];              // immediate
-        }
-        else {
-          local_x = FUN_0040e5b0();             // read variable (int)
-        }
+    1. masked read (the common case)::
 
-        if ((*(ushort *)((int)local_c + 10) & MASK) == 0) {
-          local_x = (float)local_c[SLOT];       // immediate float
-        }
-        else {
-          FUN_0040edf0(local_c[SLOT]);          // read variable (float)
-          local_x = (float)extraout_ST0;
-        }
+         if ((*(ushort *)((int)local_c + 10) & MASK) == 0) {
+           local_x = local_c[SLOT];            // immediate
+         } else {
+           local_x = FUN_0040e5b0();           // variable (int)
+         }
+
+    2. masked single-bit store, reading the low byte of the slot::
+
+         *(byte *)(param_1 + 0x2e29) = ... | (*(byte *)(local_c + 3) & 1) << 1;
+
+    3. whole-instruction delegation: the case just calls a helper that takes
+       the instruction pointer and reads `instr + 0xc`, `instr + 0x14`, ...
+       itself.  Offsets map back to slots as slot = offset/4 - 1, so +0xc is
+       slot 3 and +0x14 is slot 5.
 
     MASK bit 0 is the first parameter, so the bit index is the parameter
-    ordinal.  Note the float path passes the slot index to FUN_0040edf0 rather
-    than leaving it implicit, so it must be handled separately.
+    ordinal.  The float path passes the slot index to FUN_0040edf0 rather than
+    leaving it implicit, so it is handled separately.
     """
     out: dict[int, tuple[str, str]] = {}
     for i, line in enumerate(body):
@@ -173,6 +226,43 @@ def param_reads(body: list[str]) -> list[tuple[int, str, str]]:
         slot = sm.group(1) if sm else "?"
         kind = ("var" if is_var else "imm") + (" f32" if is_float else " i32")
         out.setdefault(bit, (kind, f"slot{slot}"))
+    # Idiom 2: single-bit store reading the low byte of a slot directly.
+    for line in body:
+        for sm in BYTE_SLOT_RE.finditer(line):
+            slot = int(sm.group(1))
+            bit = slot - 3
+            if bit >= 0:
+                out.setdefault(bit, ("imm i32 (byte)", f"slot{slot}"))
+
+    # Idiom 3: the case delegates the whole instruction to a helper which reads
+    # the slots itself (`instr + 0xc` is slot 3, `+0x14` is slot 5, ...).
+    for line in body:
+        for dm in DELEGATE_RE.finditer(line):
+            helper = dm.group(1)
+            for off in HELPER_SLOTS.get(helper, []):
+                slot = off // 4 - 1
+                bit = slot - 3
+                if bit >= 0:
+                    kind = "var f32" if float_helper(helper) else "var i32"
+                    out.setdefault(bit, (kind, f"slot{slot}"))
+
+    # Idiom 4: the case aliases the parameter base, then indexes it.
+    #   local_1c = local_c + 3;   ... local_1c[5] ...   -> slot 8
+    for line in body:
+        am = SLOT_ALIAS_RE.search(line)
+        if not am:
+            continue
+        alias, base = am.group(1), int(am.group(2))
+        for line2 in body:
+            for im in re.finditer(re.escape(alias) + r"\[(\d+)\]", line2):
+                slot = base + int(im.group(1))
+                bit = slot - 3
+                if bit >= 0:
+                    is_f = ("(float)" + alias) in line2 or ("FUN_0040edf0(" + alias) in line2
+                    # The alias resolves the slot authoritatively, so override a
+                    # previously guessed "slot?" from the masked-read scan.
+                    out[bit] = ("var f32" if is_f else "var i32", f"slot{slot}")
+
     return [(b, out[b][0], out[b][1]) for b in sorted(out)]
 
 
@@ -215,6 +305,7 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     lines = load(args.export)
+    register_helpers(lines)
     sw, end = find_switch(lines)
     cases = split_cases(lines, sw, end)
     labels = shared_label_bodies(lines, end)
