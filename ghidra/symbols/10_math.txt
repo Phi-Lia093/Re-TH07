@@ -1,0 +1,24 @@
+# 数学与通用辅助符号
+# 依据：dump_batch 批量阅读 + 逐个反编译确认
+FUN_004052d0  math_catmull_rom       Catmull-Rom spline: (t-1)t^2*p4 + (1-t)^2 t*p3 + (3-2t)t^2*p2 + (2t+1)(t-1)^2*p1
+FUN_004325c0  math_polar_to_xy       x = r*cos(theta), y = r*sin(theta)
+FUN_00461bff  math_mat_rot_y         build a rotation matrix about Y from cos/sin
+FUN_00461c7a  math_mat_rot_z         build a rotation matrix about Z from cos/sin
+FUN_0042fab0  list_node_init         zero a list node, self-link the callback field
+FUN_0042fb20  list_node_free         invoke node callback then clear fields
+FUN_00433a90  obj_reset_batch        reset 0x44c child records of stride 0x288
+FUN_004017b0  counter_inc_capped     increment a counter, capped at 999999
+FUN_004010b0  clock_step_ret         copy previous frame, advance the clock, return new frame
+FUN_00401970  render_main_update     per-frame render entry: text, clears, sprite draws
+FUN_004681f1  fpu_set_control        store the FPU control word
+FUN_00468214  crt_noop_stub          empty function
+FUN_00480779  lock_leave             LeaveCriticalSection on lock slot N
+FUN_004816f4  crt_errno_ptr          return &_terrno from the per-thread data
+FUN_0048bb40  crt_float_helper_a     CRT float conversion helper
+FUN_0048bbf0  crt_float_helper_b     CRT float conversion helper
+FUN_00401170  anm_instance_init     clear 0x93 dwords and set the -1 sentinel at +0x75
+FUN_0042f736  stat_add_capped       add to a current value, clamped to its maximum
+FUN_0042f789  stat_raise_max        raise the maximum value, clamped to a per-stage ceiling
+FUN_00427b21  ui_state_reset_a      set two UI mode shorts (1 and 2)
+FUN_00427ba2  ui_state_reset_b      set three UI sprite slots to 0xffff and clear a pointer
+FUN_0046d4f1  png_read_update_fn    invoke the row-read hook then the PNG update step

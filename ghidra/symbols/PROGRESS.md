@@ -10,7 +10,7 @@
 |------|------|
 | 函数总数 | 1429 |
 | 已恢复符号 | **150** |
-| 已精读函数 | **41** |
+| 已精读函数 | **60** |
 | 待处理 | ~1360 |
 
 ### 符号文件
@@ -27,6 +27,7 @@
 | `07_scene.txt` | 17 | 场景构造、纹理加载、文件读取 |
 | `08_audio.txt` | 13 | DirectSound、MIDI、WAV 解析 |
 | `09_res.txt` | 9 | 统一加载器、PBG4 封包 |
+| `10_math.txt` | 22 | 样条、坐标变换、数值工具 |
 
 ### 规模分布
 
@@ -52,7 +53,7 @@
 
 ---
 
-## 已精读函数清单（15 个）
+## 已精读函数清单
 
 | 地址 | 符号 | 行数 | 精读要点 |
 |------|------|------|---------|
@@ -79,6 +80,19 @@
 | `FUN_0042d75a` | `save_checksum_sum` | ~20 | 字节范围求和 |
 | `FUN_0042d7be` | `save_checksum_build` | ~18 | 校验和组合 |
 | `FUN_0047d13c` | `__vsprintf` | — | CRT 格式化 |
+| `FUN_004052d0` | `math_catmull_rom` | 7 | Catmull-Rom 样条 |
+| `FUN_004325c0` | `math_polar_to_xy` | 11 | 极坐标转换 |
+| `FUN_0042fab0` | `list_node_init` | 12 | 链表节点初始化 |
+| `FUN_0042fb20` | `list_node_free` | 12 | 链表节点销毁 |
+| `FUN_00433a90` | `obj_reset_batch` | 17 | 批量重置 0x44c 个记录 |
+| `FUN_00401170` | `anm_instance_init` | 14 | AnmInstance 清零 |
+| `FUN_0042f736` | `stat_add_capped` | 8 | 值增加+钳制 |
+| `FUN_0042f789` | `stat_raise_max` | 8 | 上限提升 |
+| `FUN_00401970` | `render_main_update` | 11 | 每帧渲染入口 |
+| `FUN_004017b0` | `counter_inc_capped` | 7 | 计数器递增 |
+| `FUN_004010b0` | `clock_step_ret` | 6 | 时间推进 |
+| `FUN_00461bff` | `math_mat_rot_y` | 25 | Y 轴旋转矩阵 |
+| `FUN_00461c7a` | `math_mat_rot_z` | 25 | Z 轴旋转矩阵 |
 
 ---
 
