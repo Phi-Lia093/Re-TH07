@@ -256,3 +256,75 @@ case 3:  // 进入子界面
 
 同一模式在三个位置出现（行 23769 / 23781 / 23871），
 确认不是偶发。
+
+---
+
+## 10. ECL 的单帧执行语义（第 48 轮补充）
+
+> **这是 Boss 行为复现的关键**，此前未记录。
+
+### 10.1 `do...while` 循环
+
+```c
+do {
+    result = ecl_interpreter(enemy);
+    if (result == -1) {                 // 脚本结束
+        enemy->flags &= 0x7f;
+        obj_end_lifecycle();
+        break;
+    }
+    if ((enemy->flags & 1) == 0) {      // 未冻结
+        obj_clamp_position(enemy);      // 位置钳制
+        obj_update_children(enemy);     // 子实体
+        obj_clamp_position(enemy);
+    }
+} while (/* 未阻塞 */);
+```
+
+### 10.2 关键结论：不是"每帧一条指令"
+
+**ECL 每帧会连续执行指令，直到遇到"等待"类指令为止。**
+
+- `ins_2`（跳转）→ 继续执行
+- `ins_21`（wait）→ **阻塞，本帧结束**
+- 其他算术/赋值 → 继续执行
+
+**这解释了为什么 Boss 的复杂脚本能在单帧内完成大量工作。**
+
+### 10.3 重制版的正确实现
+
+```lua
+function enemy_update(enemy)
+    repeat
+        local r = ecl_interpreter(enemy)
+        if r == -1 then
+            enemy.flags = enemy.flags & 0x7f
+            destroy(enemy)
+            break
+        end
+        if (enemy.flags & 1) == 0 then
+            clamp_position(enemy)
+            update_children(enemy)
+            clamp_position(enemy)
+        end
+    until blocked(enemy)
+end
+```
+
+**若实现成"每帧一条指令"，所有 Boss 的行动都会慢 N 倍。**
+
+### 10.4 `obj_clamp_position` 是幂等的
+
+```c
+void obj_clamp_position(enemy)
+{
+    if (enemy->bounds_active) {          // +0x2E29 < 0
+        pos.x = clamp(pos.x, min_x, max_x);   // +0x2E3C / +0x2E44
+        pos.y = clamp(pos.y, min_y, max_y);   // +0x2E40 / +0x2E48
+    }
+}
+```
+
+纯钳制，**无副作用**。所以循环内调用两次（钳制→碰撞→钳制）结果与调用一次相同。
+
+**边界字段让 ECL 可以限制 Boss 的活动区域**，例如停在上方。
