@@ -1,0 +1,18 @@
+# 批量审查 7：存档标记与资源释放
+FUN_0042f7df  extra_unlocked_a         test whether any of four bytes in a save slot equals 'c' (99)
+FUN_0042f853  extra_unlock_check       count 0x8d records; if over 0x3b and a marker is 'c', set it to 99
+FUN_0042f8de  extra_any_unlocked       return 1 if any of six save slots is unlocked
+FUN_0042fa60  seh_destructor_pair      SEH-wrapped double destructor call
+FUN_0042fb80  seh_constructor_pair     SEH-wrapped double constructor call
+FUN_00431a0f  gdi_surface_clear        reset a GDI surface record with a -1 sentinel
+FUN_00433f20  free_texture_pool        release all 32 texture slots at +0x2e148
+FUN_00433f90  free_screenshot          release the pending screenshot buffer and clear its id
+FUN_00434a40  gfx_create_d3d8          call Direct3DCreate8 and store the interface
+FUN_00436160  midi_device_open         midiOutOpen with a device id, closing any previous one
+FUN_004361c0  midi_device_close        midiOutReset then midiOutClose
+FUN_00436380  timer_stop               timeKillEvent and timeEndPeriod
+FUN_004363e0  swap_bytes16             swap the two bytes of a 16-bit value
+FUN_00436700  midi_free_tracks         free each 0x20-byte track record then the array
+FUN_004369c0  midi_load_track          load and prepare a MIDI track for playback
+FUN_00436c90  midi_reset_state         reset a MIDI voice state record
+FUN_00437c39  dinput_device_release    release the DirectInput device and null it
