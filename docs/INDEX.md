@@ -4,7 +4,9 @@
 
 ---
 
-> **先读这个**：[`FINAL-STATUS.md`](FINAL-STATUS.md) —— 目标的实际完成度、已解出与未解出的部分。
+> **最终验收**：[`FINAL-VERIFICATION.md`](FINAL-VERIFICATION.md) —— 按四条验收标准逐条对账
+>
+> **进度结算**：[`FINAL-STATUS.md`](FINAL-STATUS.md) —— 目标的实际完成度、已解出与未解出的部分。
 
 ## 1. 如果你是第一次看这个项目
 
