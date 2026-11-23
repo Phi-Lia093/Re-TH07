@@ -101,68 +101,83 @@ offset_b = buf + *(u32*)(buf + 8);
 
 ---
 
-## 3. 与其他系统的关系
+## 3. 区段 A 才是渲染数据（**修正**）
 
-| 系统 | 读取者 | 用途 |
-|------|--------|------|
-| `viewer` | **`std_load_stage`** | 背景对象放置 |
-| `viewer` 区段 A | ⬜ 未确认 | 16 字节记录，消费者未知 |
-| **区段 B** | **`std_render_section_b`**（`FUN_00407900`） | **3D 背景对象渲染** |
+> **重要修正**：上一轮我写「区段 B 是渲染数据」，弄反了。
+> 核对字段使用：`[299]`（offsetA）被读取，`[300]`（offsetB）**只赋值从不读取**。
+> **真正被渲染的是区段 A。**
 
-### 3.1 区段 B 的渲染逻辑（已解出）
+### 3.1 区段 A 记录结构（**已完全解出**）
+
+```
+每条 16 字节：
+  +0x00  short  对象索引（指向 0x490 指针表）
+  +0x02  short  填充
+  +0x04  float  X
+  +0x08  float  Y
+  +0x0C  float  Z
+```
+
+### 3.2 stage1 实测
+
+```
+区段 A: 0x6ec .. 0xaac = 960 字节 = 60 条记录
+
+rec0: idx=0  (-192.0, 6600.0, 0.0)
+rec1: idx=1  (-192.0, 6600.0, 0.0)
+rec2: idx=0  (-192.0, 6344.0, 0.0)     ← Y 递减 256
+```
+
+**这与第 10 轮从原始字节逆向出的结论完全一致**：
+「`f1` 值以 256 为步长递减，`f0` 恒为 -192」。
+两条独立路径互相印证。
+
+### 3.3 渲染流程（std_render_section_b 实际读的是 A）
 
 ```c
-std_render_section_b(ctx, section_mask)
+std_render_section_b(ctx, mask)
 {
-    build_view_projection();              // cam_apply_matrices
-    ptr = ctx->offset_b;                  // param_1[299]
+    ptr = ctx->offset_a;                 // param_1[299]
 
-    while (*ptr >= 0) {
-        entry = ctx->obj_ptrs[*ptr];      // 从 0x490 表取指针
-        if (entry->type == section_mask) { // +2 处是类型
+    while (*(short*)ptr >= 0) {          // 索引 < 0 表示结束
+        entry = ctx->obj_ptrs[*(short*)ptr];
+        if (entry->type == mask) {       // +2 处类型
 
-            // 计算相对相机的 3D 位置
-            pos.x = entry->x + ptr[1] - ctx->camx - ctx->off_x;
-            pos.y = entry->y + ptr[2] - ctx->camy - ctx->off_y;
-            pos.z = entry->z + ptr[3] - ctx->camz - ctx->off_z;
+            // 世界坐标 = 对象基准 + 区段记录坐标 - 相机位置
+            pos.x = entry->x + ptr[1] - camx;
+            pos.y = entry->y + ptr[2] - camy;
+            pos.z = entry->z + ptr[3] - camz;
 
-            // 距离剔除：1300^2 = 1.69e6
-            if (dist2 <= 1.69e6) {
-                // 点积投影
+            if (dist2 <= 1.69e6) {       // 1300^2 距离剔除
                 depth = pos · view_dir;
-                if (depth <= 880.0 && depth >= 60.0) {
-                    entry->flags |= 2;    // 标记可见
-
+                if (depth >= 60.0 && depth <= 880.0) {
+                    entry->flags |= 2;   // 可见
                     // 绘制子对象
-                    for (child = entry->children; child->id >= 0;
-                         child = next) {
-                        inst = obj_array[child->slot];
-                        inst->pos.x = child->x + ptr[1] - camx;
-                        ...
-                    }
                 }
             }
         }
-        ptr += *ptr_size;
+        ptr += 16;                       // 下一条记录
     }
 }
 ```
 
-### 3.2 关键数值
+### 3.4 关键数值
 
-| 参数 | 值 | 含义 |
-|------|-----|------|
-| 距离剔除平方 | **1.69e6** | `1300²`，即 1300 单位外不渲染 |
-| 近裁剪 | **60.0** | 深度小于 60 不绘制 |
-| 远裁剪 | **880.0** | 深度大于 880 不绘制 |
-| 类型比较字段 | `+2` | 条目的 section mask |
+| 参数 | 值 |
+|------|-----|
+| 记录大小 | **16 字节** |
+| 距离剔除平方 | **1.69e6**（1300²） |
+| 近裁剪 | **60.0** |
+| 远裁剪 | **880.0** |
 
-**这三个值直接决定背景的可见范围，重制版必须照抄。**
+### 3.5 各区段的最终归属
 
-> 之前 `msg_run_script` 被误认为 `.std` 播放器，
-> 实际它读 `msgN.dat`。**两者完全独立。**
-
----
+| 区段 | 内容 | 消费者 |
+|------|------|--------|
+| 文件头 | 计数 + 偏移 | `std_load_stage` |
+| `+0x490` 指针表 | 对象指针 | `std_render_section_b` |
+| **区段 A** | **16 字节放置记录** | **`std_render_section_b`** |
+| 区段 B | ⬜ 仍未知 | ⬜ 未找到 |
 
 ## 4. 重制版照抄要点
 

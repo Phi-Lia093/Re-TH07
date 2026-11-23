@@ -3,4 +3,4 @@ FUN_00407000  stage_load_background      load stgNbg.anm per stage; stage 4 load
 FUN_00407610  std_load_stage             load a stage .std: u16 counts, offset table, rebase 0x490 pointer table
 DAT_0049f64c  g_stage_std_table          per-stage .std resource name table
 FUN_00401a00  stage_ctx_init_b       zero the stage context blocks and seed its ANM slots
-FUN_00407900  std_render_section_b   walk the .std section B instruction stream and draw
+FUN_00407900  std_render_objects   walk the 16-byte placement records and draw 3D background objects
