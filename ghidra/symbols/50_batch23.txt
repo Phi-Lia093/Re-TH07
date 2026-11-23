@@ -1,0 +1,10 @@
+# 批量审查 23：清屏与道具生成
+FUN_004277a0  enemy_freeze_all           zero velocity and acceleration on every live enemy
+FUN_00424e00  item_spawn_64slot          find a free slot among 64 and bind script (type + 0x20a)
+FUN_00427a20  list_push_80               insert a node with four stored values into the 0x80 list
+FUN_0041e820  msg_ctx_create             allocate the 0x2530-byte dialogue context
+FUN_004377f0  midi_randomize_pitch   jitter 16 channel pitches by +/- param_2 within 0..127
+FUN_00435bd0  win_create_mutex        create the single-instance mutex and check the error
+FUN_00435ec0  win_get_module_path     resolve the executable path and load it
+FUN_0043836e  d3d_present_check       pick presentation params and test the call result
+FUN_00436ce0  midi_time_to_ms         convert a MIDI tick position to milliseconds
