@@ -16,3 +16,12 @@ DAT_004be408  g_death_fx_x          death explosion global X
 DAT_004be410  g_death_fx_z          death explosion global Z
 FUN_0043d880  player_shoot_timer    advance the shoot cooldown, fire, and reset on bomb or timeout
 FUN_0043d160  player_fire            fire the current shot pattern
+FUN_0043e4e0  player_bullet_collide  bullet vs player box test; returns 0 for states 1/2 (invulnerable)
+FUN_00423050  list_clear_triple_b    unlink three callbacks from their lists
+FUN_004278b0  ui_slot_alloc_b         fetch UI slot at +0xc14 + idx*0x18 and set its fields
+FUN_00427910  ui_slot_alloc_a         fetch UI slot at +0x20 + idx*0x18 and set its fields
+FUN_00427ab0  ui_slot_set_flag        allocate a slot with flag 0x2000 and store a value
+FUN_00427b54  ui_state_reset_c        set three UI sprite slots (1, 2, 2)
+FUN_004299f8  free_buffer_1fba4       free the buffer at +0x1fba4 and clear the pointer
+FUN_0042d53d  list_clear_pair_c       unlink two callbacks from their lists
+FUN_0042d657  stage_set_rects         set playfield rect 32,16,384,448 and inner rect 8,16,368,416
