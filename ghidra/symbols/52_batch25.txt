@@ -3,3 +3,9 @@ FUN_004196e0  eff_color_d0cfff         set the render colour to 0xd0cfff
 FUN_00419d70  gfx_scale_3              set the global render scale to 3.0
 FUN_0041bec0  obj_angle_hold           hold the stored angle unless it is the -990 sentinel
 FUN_00406de0  stage_start_background   kick off background layers 2 and 3 for the stage
+FUN_00423090  enemy_pre_update         walk 0x1e0 enemy slots at 0x4f50 and reset their timers
+FUN_00422ce0  enemy_load_anim_pair    load the two enemy ANM files into slots 0x0f and 0x10
+FUN_00422f40  enemy_system_register_b wire the enemy update/draw callbacks into the loop
+FUN_0041d490  text_fade_alpha         compute the fade alpha from the timer fraction
+FUN_0041cde0  eff_load_stage_anim     load data/effNN.anm per stage into slot 0x11
+FUN_00423330  obj_reset_batch_16      reset sixteen object records
