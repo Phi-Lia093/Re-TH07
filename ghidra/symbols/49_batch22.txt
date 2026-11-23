@@ -1,0 +1,8 @@
+# 批量审查 22：玩家移动与子弹物理
+FUN_0043eb90  player_apply_motion        average player position toward the target and bump the two capped counters
+FUN_0043d690  player_draw_and_call       invoke the death/revive callback then place the player sprite
+FUN_004258a0  bullet_physics_step        integrate bullet position and run the hit test against the player
+FUN_0041c400  particle_alloc_ring   allocate from a 400-slot ring at 0xb6 stride
+FUN_0041fd70  boss_check_timer_slot  find a phase timer that has not been consumed
+FUN_0041bc20  eff_rand_vel_tall      random +/-80 spread with a 0..200 z drift
+FUN_00423420  obj_timers_reset_b     reset two timer pairs plus five 0x2c-stride triples
