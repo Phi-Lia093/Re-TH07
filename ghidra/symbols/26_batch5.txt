@@ -1,0 +1,17 @@
+# 批量审查 5：输入/GDI/数学
+FUN_004312c0  input_clear_keys         mask every keyboard state byte to 0x7f and write it back
+FUN_004314f0  file_exists              return 1 if the file can be opened
+FUN_00431870  rng_next_u16_alt         16-bit step: (x ^ 0x9630) + 0x9aad, high bits folded back
+FUN_004319b0  math_rotate_vec2         rotate a 2D vector by a sine/cosine pair
+FUN_00431a0c  gdi_surface_init         zero the GDI surface record with a -1 sentinel
+FUN_00431a5c  gdi_surface_free         DeleteDC and DeleteObject, then clear the record
+FUN_00431cec  keymap_find              scan the 0x18-byte keymap table for an entry id
+FUN_0043227e  dinput_release           release the DirectInput object and clear the pointer
+FUN_00430290  input_read_joystick      joyGetPosEx into a 0x34-byte JOYINFOEX
+FUN_004325e0  score_add_float           add to a float score field then refresh the display
+FUN_00432630  anm_init_1102             initialise 0x44e AnmInstance records of 0x24c
+FUN_00432690  anm_instance_clear        clear 0x93 dwords, set the 0xffff sentinel and timers
+FUN_00433c40  bullet_reset_type         reset records whose type and flag both equal 1
+FUN_00433e90  dbg_fatal_message         append a separator and raise a MessageBox if flagged
+FUN_00431540  dbg_log_flush             write the log buffer out
+FUN_0042c577  ui_hud_draw_main        draw the in-game HUD: 5 slots at 0x4bd0 plus life/bomb/score
