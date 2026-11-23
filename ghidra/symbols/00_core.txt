@@ -1,0 +1,23 @@
+# TH07 符号恢复表 —— 机制验证用
+# 格式: 地址 新名 注释
+FUN_00410520  ecl_interpreter          ECL VM main loop (single tick)
+FUN_0040e5b0  ecl_read_var_i           read ECL variable as int32
+FUN_0040edf0  ecl_read_var_f           read ECL variable as float
+FUN_0040ec00  ecl_addr_var_i           get address of ECL int variable
+FUN_0040f3c0  ecl_addr_var_f           get address of ECL float variable
+FUN_0040e530  ecl_set_ip               set instruction pointer / push frame
+FUN_0041f2e0  ecl_spawn_instance       create ECL instance (cached global copy)
+FUN_0041f430  ecl_spawn_child          create child ECL instance inheriting globals
+FUN_004318d0  rng_next_u32             32-bit RNG (two 16-bit words)
+FUN_00431900  rng_next_f01             RNG scaled to [0,1)
+FUN_00431930  angle_normalize          normalize angle to [-pi, pi]
+FUN_0043958d  clock_advance            advance frame counter with fractional part
+FUN_0048b8a0  __ftol                    float to int conversion (CRT)
+FUN_0048bcaa  __cintrindisp2_nearby_atan2   atan2 core helper
+DAT_00575954  g_d3d8                   IDirect3D8*
+DAT_00575958  g_d3d8_device            IDirect3DDevice8*
+DAT_00575a20  g_screen_width           back buffer width (640)
+DAT_00575a24  g_screen_height          back buffer height (480)
+DAT_00575ac8  g_slow_factor           time scale multiplier (1.0 = normal)
+DAT_00575948  g_sht                   pointer to loaded .sht header
+DAT_00575c20  g_hwnd                  focus window handle

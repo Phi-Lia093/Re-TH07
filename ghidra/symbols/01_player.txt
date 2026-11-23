@@ -1,0 +1,11 @@
+# 玩家系统符号
+# 依据：FUN_0043ee50 完整精读（输入解码 + 移动 + 动画切换）
+FUN_0043ee50  player_update_input    decode input -> direction, speed, position; 139 lines
+FUN_00442ee0  player_replay_input    inject inputs from replay stream, not real input
+DAT_004b9e50  g_input_state          current input bitmask (0x10 L, 0x20 R, 0x40 U, 0x80 D, 0x04 slow)
+DAT_004b9e4c  g_input_raw            raw input before state copy
+DAT_004b9e58  g_input_prev           previous frame input (for edge detect)
+DAT_004b9e60  g_input_hold_frames    frames the same input has been held
+DAT_0062f648  g_flags_game           game-wide flags (bit2 = replay playing)
+FUN_004423e0  player_init            create player object, load .sht
+FUN_00440cf0  player_death_update    death/respawn timer and position reset
