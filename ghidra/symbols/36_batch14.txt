@@ -4,3 +4,5 @@ FUN_00419880  enemy_burst_8way           split an enemy's shot into eight direct
 FUN_0041a370  obj_impart_random_vel      give an object a random velocity in +/-128/12 then apply 1/19 damping
 FUN_0041a5a0  obj_impart_random_vel_b    second variant of the random velocity assignment
 FUN_004409f0  player_death_handler     death: 999-frame state, +6 bombs, 200-unit penalty, life check
+DAT_0062f888  g_cherry_max            cherry ceiling for this stage; set only when loading a replay
+DAT_0062f88c  g_cherry_current        cherry value; only ever decreases (death, clears)
