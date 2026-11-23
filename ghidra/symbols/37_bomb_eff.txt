@@ -1,0 +1,4 @@
+# Bomb 与特效生成
+FUN_00408710  bomb_reimu_dream_seal      Reimu bomb: 8 spread bullets every 6 frames, 140 total, mirrored by player side
+FUN_004418b0  eff_spawn_scaled           spawn an effect with a scale pair and two extra parameters
+FUN_0042868d  snd_play_id_name           play a sound by id with a debug label
