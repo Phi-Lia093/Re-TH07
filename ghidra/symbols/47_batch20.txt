@@ -1,0 +1,9 @@
+# 批量审查 20：生成与范围查询
+FUN_00423660  enemy_spawn_from_template    copy a spawn template into a live enemy and seed motion
+FUN_00424c00  obj_query_sphere             find objects within radius param_2 (squared distance test)
+FUN_00426c40  item_update_64slots          advance the 64 item slots at +0x366628
+FUN_0041d180  anm_init_16slots             initialise sixteen 5-dword headers
+FUN_00417c30  enemy_count_live             scan the 0x400 enemy slots for a live state
+FUN_00427960  list_push_20           allocate a 1-dword node plus two fields and store three values
+FUN_004279a0  list_push_10_a         same shape with a different allocator
+FUN_00427a70  list_push_10_b         same shape, third variant
