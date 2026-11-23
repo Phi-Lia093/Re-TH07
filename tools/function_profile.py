@@ -34,7 +34,14 @@ import sys
 C_FILE = "th07.exe.c"
 OUT = "work/func_profile.json"
 
-FUNC_HEAD = re.compile(r"^(?:[a-zA-Z_][\w \*]*?)\s+(FUN_[0-9a-f]{8}|__\w+|[a-z_][\w]*)\s*\(")
+# Some definitions put the calling convention on its own line, e.g.
+#   void __fastcall
+#   FUN_00405370(int a, ...)
+# so match the name at the start of ANY line and accept the signature on the
+# same or next line. Without the \n? form these 79 functions were silently
+# absent from the profile and every coverage figure was overstated.
+FUNC_HEAD = re.compile(
+    r"^(?:[a-zA-Z_][\w \*]*?\s+)?(FUN_[0-9a-f]{8}|__\w+|[a-z_][\w]*)\s*\(")
 STR_RE = re.compile(r'"((?:[^"\\]|\\.){2,})"')
 OFF_RE = re.compile(r"\+ (0x[0-9a-f]{2,4})\)")
 FLOAT_RE = re.compile(r"=\s*(-?\d+\.\d+)\s*;")
