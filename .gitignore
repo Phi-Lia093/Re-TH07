@@ -83,3 +83,10 @@ desktop.ini
 
 # ---- Reference captures: keep the page, drop its asset bundle ----
 /ref/*_files/
+
+# ---- Game runtime output (config/scores/logs) ----
+/th07.cfg
+/score.dat
+/log.txt
+/*.rpy
+
