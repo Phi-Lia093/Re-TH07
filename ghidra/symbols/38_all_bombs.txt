@@ -1,0 +1,12 @@
+# Bomb 分派表（0x49D850，12 项）
+FUN_00409dd0  bomb_02        bomb index 2: 140 frames, scale 200
+FUN_0040a3a0  bomb_03        bomb index 3: 190 frames, scale 250
+FUN_0040a7c0  bomb_04        bomb index 4: 200 frames, scale 250
+FUN_0040af10  bomb_05        bomb index 5: 260 frames, scale 310
+FUN_0040b7d0  bomb_06        bomb index 6: 300 frames, scale 300
+FUN_0040be20  bomb_07        bomb index 7: 340 frames, scale 390
+FUN_0040c2e0  bomb_08        bomb index 8: 160 frames, scale 210
+FUN_0040ca50  bomb_09        bomb index 9: 250 frames, scale 290
+FUN_0040d4c0  bomb_10        bomb index 10: 160 frames, scale 260
+FUN_0040da80  bomb_11        bomb index 11: 300 frames, scale 420
+DAT_0049d850  g_bomb_table   12-entry function pointer table of bomb handlers
