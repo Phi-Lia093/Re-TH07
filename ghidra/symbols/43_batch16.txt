@@ -1,0 +1,13 @@
+# 批量审查 16：0x80 槽对象子系统
+FUN_00439000  ui_register_overlay        register the overlay UI object with its draw and update hooks
+FUN_0043a05f  pause_resume_dispatch      resume from pause and emit the dummy BGM call
+FUN_0043baa0  obj_init_128slots          reset the timer pair and 0x80 slots at 0x1428 stride
+FUN_0043bb10  obj_slot_reset             reset one 0x1428-stride slot
+FUN_0043bbd0  obj_slot_tick              advance one slot's timer and trigger at the period
+FUN_0043bdc0  obj_slot_tick_b            modulo test then tick the slot
+FUN_0043c0d0  obj_slot_tick_aim          tick then aim the slot toward an angle with 1.5x speed
+FUN_0043c1c0  obj_slot_tick_aim_b        tick then aim the slot using the stored angle
+FUN_0043c6b0  obj_slot_decay             decay one slot's speed by rand*0.1+0.27
+FUN_004220f0  math_angle_lerp_short   interpolate between two angles along the shorter arc
+FUN_0041d0a0  ui_register_dialog       register the dialogue UI object and its handlers
+FUN_0041f580  enemy_update_children_pos copy enemy position into its child sprites each frame
