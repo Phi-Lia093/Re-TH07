@@ -9,8 +9,10 @@ FUN_0041abe0  obj_goto_global_pos    behaviour: snap position to the global coor
 FUN_0041d410  parse_int_and_skip     atoi the next token in a stream and advance past it
 FUN_0041e790  scene_free_stage       free the stage scene: release ANM, texture and objects
 FUN_0041f670  obj_mark_children_dead mark all child objects dead
-FUN_00441960  player_die_sequence    death state machine: spawn explosion, advance stages 1..4
-FUN_00441bd0  player_spawn_death_fx   spawn the death explosion object (type 0x1c) and scale it
+FUN_00441960  player_bomb_step       bomb/skill state machine: spawns type-0x1c object, stages 1..4
+FUN_00441bd0  player_bomb_spawn_fx    spawn the bomb effect object (type 0x1c) with its scale ramp
 FUN_00427c81  ui_notify_value_change  notify the HUD that a value changed (kind, amount)
 DAT_004be408  g_death_fx_x          death explosion global X
 DAT_004be410  g_death_fx_z          death explosion global Z
+FUN_0043d880  player_shoot_timer    advance the shoot cooldown, fire, and reset on bomb or timeout
+FUN_0043d160  player_fire            fire the current shot pattern
