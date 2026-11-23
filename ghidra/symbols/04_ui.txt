@@ -1,0 +1,23 @@
+# UI / HUD 符号
+# 依据：FUN_0042b603（HUD）、FUN_00402780（暂停菜单）精读
+# 坐标经反汇编与截图双向验证
+FUN_0042b603  ui_hud_draw           HUD: set viewport, optional debug grid, 8 static UI objects, icon row
+FUN_00427f22  ui_settlement_draw    stage-clear score breakdown text (origin 144,128)
+FUN_00402780  ui_pause_menu         pause menu state machine (10 slots, 0x93 bytes apart)
+FUN_0044f770  anm_draw_center       centered sprite draw; HUD passes pos via +0x1c8/+0x1cc/+0x1d0
+FUN_00404f30  anm_set_sprite_script set AnmInstance to a script index: reset pos/scale, bind script
+DAT_00575a9c  g_gfx_flags           render/debug flags (bit4 = hide HUD, bit12 = debug grid)
+DAT_00575ab4  g_show_boxes          draw collision boxes
+DAT_00575a18  g_viewport            D3DVIEWPORT8 (x, y, width, height)
+DAT_00575adc  g_flags_slow          slow-motion / debug flags (bit1 = screenshot path)
+DAT_0062f85c  g_stage_number        current stage index (0 = not in game)
+DAT_0062f864  g_field_screen_x      playfield left screen coordinate
+DAT_0062f86c  g_field_width         playfield width (384)
+DAT_0062f870  g_field_height        playfield height (448)
+DAT_0062f874  g_field_clamp_x0      playfield clamp min X
+DAT_0062f878  g_field_clamp_y0      playfield clamp min Y
+DAT_0062f87c  g_field_clamp_w       playfield clamp width
+DAT_0062f880  g_field_clamp_h       playfield clamp height
+DAT_00626274  g_session_state       0x38-byte game session state (+0x1c pause disp, +0x25 in-game)
+DAT_00626280  g_difficulty          difficulty index 0..5 (Easy..Phantasm)
+FUN_0044c930  snd_request            queue a sound effect request; 5 concurrent slots, duplicates merge
