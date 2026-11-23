@@ -1,0 +1,8 @@
+# 批量审查 10
+FUN_004014a0  ui_ctx_init                  initialise the UI context: many 0x93-dword slots, 723 particle records
+FUN_004020b0  ui_text_draw_queue           render the queued text: walk each 0x60-byte record and handle newlines
+FUN_00404690  ui_stage_title_draw          draw the stage title, cherry particles and the score digits
+FUN_0043a207  gfx_begin_scene_draw         per-scene render prologue
+FUN_0043a24e  gfx_draw_state               issue a render state pair (kind, value)
+FUN_00405080  ui_render_ctx_init      initialise a render context: slots, 4 timers, 16-float matrix
+FUN_004069d0  ui_color_apply_maybe     apply a colour/state block to the renderer
