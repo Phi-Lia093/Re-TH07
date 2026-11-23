@@ -1,0 +1,14 @@
+# 批量审查 15：渲染上下文与计时器
+FUN_0042d560  render_ctx_init_b        zero 0x2591 dwords then seed the viewport (32,16,384,448)
+FUN_0042d5cd  stat_add_scaled          add to a scaled stat and refresh the display
+FUN_00436300  timer_start              timeBeginPeriod then timeSetEvent
+FUN_0043832f  d3d_create_surface       create a D3D surface into DAT_00575964
+FUN_0043a1bd  gfx_begin_frame          set the in-frame flag and issue the begin call
+FUN_0043b478  surface_release_all      free the surface, unload slots 0x2e/0x2f and the buffer
+FUN_0043b750  stat_add_50              accumulate into the float at +0x50
+FUN_0043b7a0  stat_add_5c              accumulate into the float at +0x5c
+FUN_00435e30  win_activate_window      attach the thread input, activate the window, restore
+FUN_004302f0  sjis_first_byte_test     test whether a byte is a Shift-JIS lead byte (bit 7)
+FUN_00431ace  keymap_check_combo       check a key binding including its alternate id
+FUN_00436650  midi_load_track_b        load a MIDI track into the index table
+FUN_00427d92  dbg_rand_box             place a box at random offsets from eight randoms
