@@ -1,0 +1,7 @@
+# 道具掉落变体
+FUN_004182d0  enemy_drop_on_kill       drop items when an enemy dies: 4 on Easy..Hard, 2 on Lunatic
+FUN_00419a50  item_drop_radius_180     drop items from enemies within a 180px radius (128 on Hard)
+FUN_00419dc0  item_drop_variant_b      another radius-based drop pattern
+FUN_00419ff0  item_drop_variant_c      another drop pattern
+FUN_00419710  item_drop_variant_d      another drop pattern
+FUN_00417e50  item_drop_variant_e      another drop pattern
