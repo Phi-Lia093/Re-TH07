@@ -73,11 +73,27 @@ def main() -> int:
         removed = 0
         for path in files:
             out = []
+            local_seen: set[str] = set()
             for raw in open(path, encoding="utf-8").read().splitlines():
                 s = raw.strip()
                 m = LINE_RE.match(s) if s and not s.startswith("#") else None
                 if m:
                     key = m.group(1)
+                    # Duplicates can appear twice in ONE file, not just across
+                    # files -- appending an annotated copy of entries already
+                    # written un-annotated does exactly that. Keep the last
+                    # occurrence (the annotated one) and drop earlier ones.
+                    if key in local_seen:
+                        removed += 1
+                        # remove the earlier occurrence we already emitted
+                        for i in range(len(out) - 1, -1, -1):
+                            pm = LINE_RE.match(out[i].strip()) if out[i].strip() else None
+                            if pm and pm.group(1) == key:
+                                out.pop(i)
+                                break
+                        out.append(raw)
+                        continue
+                    local_seen.add(key)
                     if seen.get(key, (None, None))[0] != path:
                         removed += 1       # defined in an earlier file
                         continue

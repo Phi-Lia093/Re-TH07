@@ -1,18 +1,3 @@
-FUN_00404eb0  math_cross_b
-FUN_00406930  obj_blend_color
-FUN_00407410  anm_free_5slots
-FUN_004082b0  cam_apply_matrices
-FUN_0040a280  eff_draw_4slots
-FUN_0040a6b0  eff_draw_3slots
-FUN_0041adf0  obj_offset_by_type
-FUN_0041c100  obj_place_from_global
-FUN_0041d2f0  ui_step_15slots
-FUN_0041d380  ui_draw_15slots
-FUN_00401690  hud_init_11slots
-FUN_00401720  hud_init_7slots
-FUN_004017e0  game_frame_update
-FUN_00401ba0  hud_setup_slots
-FUN_00401d70  hud_init
 FUN_00401690  hud_init_11slots      init 10 HUD slots of 0x93 dwords plus one extra
 FUN_00401720  hud_init_7slots       init 6 HUD slots plus one extra
 FUN_004017e0  game_frame_update     per-frame game update: particles, pause dispatch, ANM tick
