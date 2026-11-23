@@ -1,0 +1,20 @@
+# 批量审查 18：DirectShow 音频流
+FUN_0045d910  ds_stream_stop             call the stream's IMediaControl Stop via vtable slot 0x48
+FUN_0045d960  ds_stream_run              call the stream's IMediaControl Run via vtable slot 0x30
+FUN_0045dad0  ds_stream_fade             ramp the stream volume from -5000 to 0 over the fade length
+FUN_0045d720  ds_stream_get_ptr          read element param_2 from the stream pointer array
+FUN_0045c710  com_object_release         release a COM object and null the pointer
+FUN_0045c4d9  ds_stream_free_buffers     free the two stream buffers
+FUN_0045c546  ds_stream_destroy          release the stream object and its slots 0x20..0x29
+FUN_0045e020  com_init_null              zero the interface pointers of a COM helper record
+FUN_0045e7b0  ds_file_read             ReadFile when the permission flag is read-capable
+FUN_0045e800  ds_file_write            WriteFile when the permission flag is write-capable
+FUN_0045e770  ds_file_close            CloseHandle the stream file and clear the size
+FUN_0045e4b0  ds_sample_close           close the sample handle when the state is 1
+FUN_0045e190  ds_seek_set              store the seek position and return 0 only for one mode
+FUN_0045e550  ds_file_ctor             install the vtable and initialise the handle to -1
+FUN_0045e5c0  ds_file_dtor             destructor with SEH unwinding
+FUN_0045e520  ds_vtbl_dtor_a           set the vtable then optionally free
+FUN_0045e590  ds_vtbl_dtor_b           set the vtable then optionally free
+FUN_0045d030  ds_helper_dtor_a         run the inner destructor then optionally free
+FUN_0045da80  ds_helper_dtor_b         run the inner destructor then optionally free
