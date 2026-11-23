@@ -1,7 +1,0 @@
-# 对话消息脚本（msg1..8.dat）
-FUN_00429935  msg_load                 load data/msgN.dat: read entry count and rebase the offset table
-FUN_00429c42  msg_run_script           play a dialogue script: 15 opcodes over (frame,opcode,size,arg0,arg1) entries
-FUN_00427e7c  msg_frame_update         per-frame driver: run the message script and count frames
-FUN_004543b0  ui_text_draw_pair        draw text using a colour pair and a string pointer
-FUN_004444d0  file_write_record        write a score/replay record file
-FUN_0043a0d6  gfx_set_global_scale     set a global render scale factor

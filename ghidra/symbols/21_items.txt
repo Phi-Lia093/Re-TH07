@@ -1,7 +1,0 @@
-# 道具系统符号
-FUN_004190f0  item_drop_area_check     spawn items from enemies destroyed in a Y band; count scales with difficulty
-FUN_00424d20  item_spawn               create an item of the given kind at the given position
-FUN_00423730  item_spawn_ring          find a free bullet slot and place an item on a ring around a centre
-FUN_00442370  math_angle_to_target     angle from an object to a point; returns pi/2 when coincident
-FUN_004279e0  ui_slot_set_triple       allocate a UI slot with flag 0x20 and store three values
-DAT_009a9a80  g_item_count             number of live items, capped at 0x400

@@ -1,5 +1,0 @@
-# 批量审查 24：系统注册与窗口初始化
-FUN_0041ea60  enemy_system_register      register the enemy update/draw callbacks into the game loop
-FUN_0041cb80  particle_fade_256          walk up to 256 particles and randomize their alpha
-FUN_00434020  win_init_app               query system parameters, create the mutex and load th07.cfg
-FUN_004346e0  timer_query_perf           query the performance counter for timing

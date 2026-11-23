@@ -1,6 +1,0 @@
-# 批量审查 8：屏幕淡入与子弹等级
-FUN_004077f0  anm_timeline_update      advance script timelines for every active ANM object
-FUN_004083f0  screen_fade_update       fade the screen tint over 60 frames between 0x30 and 0x80
-FUN_004084f0  player_effect_spawn      spawn the player's type-0x19 effect object
-FUN_00408610  bullet_rank_scale        scale a value down by difficulty then floor to a multiple of 10
-FUN_0040bca0  eff_draw_3ring            draw 3 slots ringed around the player; used as bomb 06 draw

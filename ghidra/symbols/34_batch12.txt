@@ -1,6 +1,0 @@
-# 批量审查 12：慢动作与特效绘制
-FUN_00418eb0  slowmo_enter               set g_slow_factor = 1/N and scale every object's velocity by it
-FUN_00418fc0  slowmo_exit                inverse of slowmo_enter: restore g_slow_factor and rescale velocities
-FUN_0040c970  eff_draw_60_offsets        draw sixty effect objects with per-object offsets applied
-FUN_0040d3b0  eff_draw_60_screen         draw sixty effect objects with the screen offset added
-FUN_0040e420  anm_load_group             load an ANM group: rebase 16 slot pointers plus a variable table

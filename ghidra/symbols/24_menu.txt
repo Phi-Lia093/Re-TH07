@@ -1,8 +1,0 @@
-# 菜单系统
-FUN_00457fe5  menu_confirm_action      dispatch to the scene for the confirmed menu entry
-FUN_004554d6  menu_dispatch_state      switch on +0xd0f8 and call the matching menu handler
-FUN_00455435  menu_set_state           switch the menu to a new state index
-FUN_00455030  menu_anim_state          set an ANM slot's script index for a menu state
-FUN_0045624d  menu_state_options       options sub-menu handler
-FUN_00456f6b  menu_state_other         another menu state handler
-DAT_00575a89  g_menu_selection         confirmed menu entry: 0..3, or 4..7 for the second group

@@ -1,9 +1,0 @@
-# 弹幕与对象生成符号
-# 依据：FUN_00432990（380 行）、FUN_0041c610（对象生成器）精读
-FUN_00432990  bullet_update_all     iterate 1100 bullet slots of 0x288, update and cull
-FUN_00425a50  bullet_update_maybe   second bullet pass (307 lines, partially read)
-FUN_0041c610  obj_spawn_typed       allocate an object: slot = base + 0x1c + (idx+400)*0x2d8
-FUN_0041c790  obj_update_maybe      per-object update (partially read)
-DAT_004be40c  g_bullet_limit        bullet count threshold for slowdown handling
-DAT_004bfee5  g_bullet_flag         bullet debug/limit flag
-DAT_0049efc0  g_obj_type_table     object type table, 3 dwords per type: script id, param, hook

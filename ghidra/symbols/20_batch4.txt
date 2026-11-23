@@ -1,8 +1,0 @@
-# 批量审查 4：中大型函数
-FUN_0043a801  ui_music_list            music room list: 31 rows of 0x24c, scrolls by 10, plays track on confirm
-FUN_00441330  player_frame_update      per-frame player update: bomb clear timer then state 3 handling
-FUN_004411c0  player_bomb_clear_start  start a 60-frame bullet-clear window and scale the player
-FUN_00424740  bullet_clear_all         mark every bullet (0x400 slots, stride 0x35a) and effect as dead
-FUN_00439f4d  bgm_play_name            start BGM from a track name
-FUN_004542d0  ui_text_draw_at          draw a string into a HUD slot with colour and scale
-FUN_004326f0  bullet_set_speed_ring    set radial speed for a ring of bullets

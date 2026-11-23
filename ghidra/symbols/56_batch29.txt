@@ -1,3 +1,0 @@
-# 批量审查 29：复活复位（最后一个核心函数）
-FUN_00441670  player_revive_reset      settle cherry into score, restore state 3 and set 40 invulnerable frames
-FUN_00437908  win_platform_tick        windows-level periodic tick

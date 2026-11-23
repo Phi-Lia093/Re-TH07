@@ -1,9 +1,0 @@
-# ANM 解释器符号
-# 依据：anm_run_script 及变量访问/重置函数逐个反编译确认
-FUN_00450a50  anm_read_var_f        read AnmInstance variable as float (same id space as ECL)
-FUN_00450b20  anm_read_var_i        read AnmInstance variable as int32
-FUN_00450ca0  anm_addr_var          get address of an AnmInstance variable (counter target)
-FUN_004010f0  anm_instance_reset    zero 0x72 dwords, scale=1, colour=white, flags=7
-FUN_00401000  anm_reset_transform   zero position/rotation fields, [0xf]=1.0
-FUN_004394c7  clock_skip_frames     subtract N from a frame counter, honouring fractional time
-DAT_00575adc  g_flags_slow          slow-motion / debug flags (bit5 pauses counters)

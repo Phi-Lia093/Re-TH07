@@ -1,5 +1,0 @@
-# 摄像机关键帧系统符号
-# 依据：FUN_00405690（381 行）与 FUN_00405370（插值器）完整精读
-FUN_00405690  cam_run_script       camera keyframe VM: 0x14-byte instructions, -1 terminated
-FUN_00405370  cam_ease_axis        advance one axis interpolator and apply its easing curve
-FUN_00403b60  cam_update           camera per-frame update (191 lines, partially read)
