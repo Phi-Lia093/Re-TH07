@@ -85,7 +85,11 @@ class AnmEntry:
         for i in range(self.scripts):
             if script_base + i * 8 + 8 > len(b):
                 break
-            self.script_entries.append(SCRIPT.unpack_from(b, script_base + i * 8))
+            sid, soff = SCRIPT.unpack_from(b, script_base + i * 8)
+            # Same trap as the sprite table: entries reached via `nextoffset`
+            # store offsets relative to their own header, while the first
+            # entry's are absolute.  For entry 0 base == 0 so this is a no-op.
+            self.script_entries.append((sid, base + soff))
 
         self.sprite_list = []
         for off in self.sprite_offsets:
