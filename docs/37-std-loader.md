@@ -107,7 +107,57 @@ offset_b = buf + *(u32*)(buf + 8);
 |------|--------|------|
 | `viewer` | **`std_load_stage`** | 背景对象放置 |
 | `viewer` 区段 A | ⬜ 未确认 | 16 字节记录，消费者未知 |
-| `viewer` 区段 B | ⬜ 未确认 | — |
+| **区段 B** | **`std_render_section_b`**（`FUN_00407900`） | **3D 背景对象渲染** |
+
+### 3.1 区段 B 的渲染逻辑（已解出）
+
+```c
+std_render_section_b(ctx, section_mask)
+{
+    build_view_projection();              // cam_apply_matrices
+    ptr = ctx->offset_b;                  // param_1[299]
+
+    while (*ptr >= 0) {
+        entry = ctx->obj_ptrs[*ptr];      // 从 0x490 表取指针
+        if (entry->type == section_mask) { // +2 处是类型
+
+            // 计算相对相机的 3D 位置
+            pos.x = entry->x + ptr[1] - ctx->camx - ctx->off_x;
+            pos.y = entry->y + ptr[2] - ctx->camy - ctx->off_y;
+            pos.z = entry->z + ptr[3] - ctx->camz - ctx->off_z;
+
+            // 距离剔除：1300^2 = 1.69e6
+            if (dist2 <= 1.69e6) {
+                // 点积投影
+                depth = pos · view_dir;
+                if (depth <= 880.0 && depth >= 60.0) {
+                    entry->flags |= 2;    // 标记可见
+
+                    // 绘制子对象
+                    for (child = entry->children; child->id >= 0;
+                         child = next) {
+                        inst = obj_array[child->slot];
+                        inst->pos.x = child->x + ptr[1] - camx;
+                        ...
+                    }
+                }
+            }
+        }
+        ptr += *ptr_size;
+    }
+}
+```
+
+### 3.2 关键数值
+
+| 参数 | 值 | 含义 |
+|------|-----|------|
+| 距离剔除平方 | **1.69e6** | `1300²`，即 1300 单位外不渲染 |
+| 近裁剪 | **60.0** | 深度小于 60 不绘制 |
+| 远裁剪 | **880.0** | 深度大于 880 不绘制 |
+| 类型比较字段 | `+2` | 条目的 section mask |
+
+**这三个值直接决定背景的可见范围，重制版必须照抄。**
 
 > 之前 `msg_run_script` 被误认为 `.std` 播放器，
 > 实际它读 `msgN.dat`。**两者完全独立。**

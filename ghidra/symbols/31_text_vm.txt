@@ -1,5 +1,5 @@
 # 对话框文字渲染与内联标记
 FUN_0041d700  msg_text_render            render dialogue text: walk the string, handle @-directives, emit glyphs
-FUN_0041e4b0  text_check_unlock          evaluate the @F unlock test over the 6x4 save matrix
+FUN_0041e4b0  text_load_script          load a text script file into +0x24d4 and reset the text pointers
 FUN_00439dd0  bgm_play_name_b            start BGM from a name (second entry point)
 DAT_0062e6c4  g_save_matrix              6x4 matrix of save-slot markers ('c' = cleared)
