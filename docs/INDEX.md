@@ -53,6 +53,7 @@
 | 计分公式 | [`33`](33-scoring.md) |
 | 道具掉落与收集 | [`30`](30-item-drops.md) [`31`](31-item-collection.md) |
 | 慢动作 | [`38`](38-slowmotion.md) |
+| **全部 12 个 Bomb** | [`46`](46-all-bombs-complete.md) |
 | 主循环与输入 | [`24`](24-main-loop.md) |
 | 关卡与实体 | [`18`](18-stage-loop-and-entities.md) |
 
