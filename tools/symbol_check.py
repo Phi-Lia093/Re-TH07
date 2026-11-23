@@ -31,7 +31,7 @@ def main() -> int:
     ap.add_argument("--fix", action="store_true")
     args = ap.parse_args()
 
-    files = sorted(glob.glob(f"{SYM_DIR}/0*.txt"))
+    files = sorted(glob.glob(f"{SYM_DIR}/[0-9]*.txt"))
     seen: dict[str, tuple[str, str]] = {}      # addr -> (file, name)
     dup_addr: list[tuple[str, str, str]] = []
     bad: list[tuple[str, str]] = []

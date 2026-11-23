@@ -1,0 +1,7 @@
+# 录像与界面状态符号
+# 依据：FUN_00447198（录像列表）、FUN_00445db3（结束菜单）等逐个反编译确认
+FUN_00447198  ui_replay_list       replay list screen: 0x29 rows of 0x24c, selected colour 0xff6060
+FUN_00445db3  ui_game_end_menu     post-game menu: 10-step key sequence, branches to replay list
+FUN_00445c55  ui_list_navigate     up/down key moves a list index with wrap, plays a sound
+FUN_0043a18d  game_in_progress     nonzero when a session is active (g_session_state+0x25)
+FUN_00448d40  ui_score_table_draw  score table: header plus ten data rows, "%8s %9d%1d(%d)"
