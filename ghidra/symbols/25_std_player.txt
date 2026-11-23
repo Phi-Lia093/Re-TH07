@@ -1,0 +1,4 @@
+# .std 3D 背景脚本播放器
+FUN_00429c42  std_run_script           play the stage .std 3D object script: dispatch entries, bind ANM scripts 0x4a0+
+FUN_00427e7c  std_frame_update         per-frame driver: run the script, count frames, trigger at frame 300
+FUN_00441670  std_check_maybe          auxiliary check invoked when the debug flag is set
