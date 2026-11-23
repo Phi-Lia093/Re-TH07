@@ -1,0 +1,7 @@
+# 计分与 UI 弹字
+FUN_0042f5a2  score_add_graze          add to the graze counter with a 50000 ceiling per stage
+FUN_004024f0  ui_popup_number          show a floating score number at a position with a colour
+FUN_00402630  ui_popup_small           show a small floating number
+FUN_0042d612  player_add_value         add to the player's value field at +0x68
+FUN_0042d83a  reward_random_bonus      roll a bonus: below 8 gives one reward, a second roll gives another
+FUN_00433b20  obj_chain_reaction       propagate an effect to neighbouring objects of the same class
