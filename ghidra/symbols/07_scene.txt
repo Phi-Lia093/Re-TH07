@@ -1,0 +1,19 @@
+# 场景与背景符号
+# 依据：逐个反编译确认（含多轮修正）
+FUN_004555dd  ui_title_update       title screen state machine (+8 state, +0xc timer, +0x64 menu index)
+FUN_004547b0  gfx_load_texture      load a texture into slot N (+0x2e148 + N*4), freeing any previous
+FUN_00454a10  gfx_free_texture      release a texture slot
+FUN_00439ec1  gfx_set_render_mode   dispatch render path by g_gfx_mode (2 = direct3d, 1 = ...)
+FUN_0047f830  __seh_frame            C++ SEH prologue: set ExceptionList
+FUN_00443da0  file_read_whole       read an entire file into memory (CreateFile/ReadFile)
+FUN_0045c5d0  scene_new_title       allocate the 0xd158-byte title scene object
+FUN_0045bf15  scene_init_title      initialise title scene state and menu defaults
+FUN_00449b05  scene_init_result     initialise the result scene, load result00.anm
+FUN_0043ae20  scene_init_music      initialise the music room, load music00.anm
+FUN_0041e590  scene_init_staff      initialise the staff roll, load staff01.anm
+FUN_00428b19  scene_init_stage      initialise a stage: loading, dialogue (std*txt) and portraits
+FUN_00426f60  scene_load_bullets    load etama.anm into slot 11
+DAT_00575aac  g_scene_pending      pending scene id requested by gameplay code
+DAT_00575aa8  g_scene_current      current scene id (-1 = none)
+DAT_00575a87  g_gfx_mode           render mode selector (2 = accelerated, 1 = fallback)
+DAT_00575a68  g_viewport_default   default viewport block copied on scene entry (0xe dwords)

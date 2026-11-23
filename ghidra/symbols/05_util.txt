@@ -4,11 +4,5 @@ FUN_004315f0  dbg_log_append        sprintf into a 8196-byte ring buffer, advanc
 FUN_0047d13c  __vsprintf            CRT formatted output into a caller buffer
 FUN_00430140  obj_list_remove       unlink a node from a doubly linked list (+0x10 prev / +0x14 next)
 FUN_004011b0  anm_reset_timers      zero two banks of 5 interpolation triples to the -999 sentinel
-FUN_00431930  angle_normalize       wrap an angle into [-pi, pi]
-FUN_004318d0  rng_next_u32          32-bit RNG built from two 16-bit draws
-FUN_00431900  rng_next_f01          RNG scaled into [0,1)
-FUN_0043958d  clock_advance         advance a frame counter, carrying the fractional part
 FUN_0042d75a  save_checksum_sum     sum a byte range (used by the score/save record)
 FUN_0042d7be  save_checksum_build   combine four save_checksum_sum calls into one value
-FUN_00401000  anm_reset_transform   clear position/rotation fields, [0xf] = 1.0
-FUN_004010f0  anm_instance_reset    zero 0x72 dwords, scale=1, colour=white, flags=7
