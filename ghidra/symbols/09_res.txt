@@ -1,0 +1,12 @@
+# 资源加载符号
+# 依据：FUN_00431330（统一加载器）与 PBG4 封包函数精读
+FUN_00431330  res_load            unified loader: param_2==0 -> th07.dat, else read from disk
+FUN_0045fab0  pbg_find_size       look up an archive entry, return its decompressed size
+FUN_0045fae0  pbg_find_entry      locate an entry in the PBG4 directory
+FUN_0045f960  pbg_read_entry      decompress one archive entry into a caller buffer
+FUN_0045e4f0  dbg_logf_stub       logging compiled out in this build (empty function)
+FUN_00431730  dbg_log_append_err  same as dbg_log_append but for the error stream
+FUN_004395fb  file_read_struct    read a file and parse a small header before the payload
+FUN_0044df90  res_load_anm        load an ANM into a numbered texture slot
+DAT_004b9e64  g_last_load_size    size of the most recent archive load
+DAT_00624210  g_log_stream        log output stream
