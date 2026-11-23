@@ -1,0 +1,10 @@
+# 主循环与场景状态机符号
+# 依据：FUN_00437c70（236 行，主循环）完整精读
+FUN_00437c70  main_loop             per-frame entry: refresh input, run scene transition, tick global frame
+FUN_00437903  dbg_logf_scene        log "scene %d -> %d" on every transition
+FUN_00430b50  input_poll            sample the keyboard/pad into a bitmask
+FUN_0043a569  cmd_check_debug       compare a string against 'debug' and match a command table
+DAT_004b9e44  g_anm_manager        global AnmManager base (script table at +0x28ef0); [0]=0x80808080 colour
+
+DAT_004b9e54  g_input_prev         previous frame input bitmask (edge detection)
+DAT_004b9e5c  g_input_repeat       input auto-repeat flag

@@ -1,0 +1,11 @@
+# MIDI 引擎与渲染初始化符号
+# 依据：逐个反编译确认（WinMM MIDI API 调用 + VLQ 解码）
+FUN_00436f50  midi_process_events    decode and dispatch MIDI events from a track stream
+FUN_00436200  midi_send_long         midiOutPrepareHeader + midiOutLongMsg
+FUN_00436250  midi_send_short        midiOutShortMsg (note on/off, control change)
+FUN_00436400  midi_read_vlq          read a MIDI variable-length quantity (7 bits per byte)
+FUN_00436bc0  midi_free_buffer       midiOutUnprepareHeader then free the header and data
+FUN_00435230  midi_parse_message     parse a MIDI message and dispatch by status bits
+FUN_004351c0  midi_format_arg        append one formatted argument (flag ? alt : normal text)
+FUN_00434bd0  gfx_init_matrices      build projection and view matrices, load stage textures
+FUN_0044a520  gfx_reset_viewport      set the 640x480 viewport and capture the state block
