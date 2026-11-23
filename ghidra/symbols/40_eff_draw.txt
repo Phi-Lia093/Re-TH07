@@ -1,0 +1,6 @@
+# 特效绘制层
+FUN_00408180  gfx_setup_scene_projection   set the scene projection: fov pi/10, near 10000, aspect from the viewport
+FUN_00409990  bomb_eff_draw_8x4            draw 8 slots with four sub-layers each, screen offset applied
+FUN_0040aba0  bomb_eff_draw_8x2_shadow     draw 8 slots plus a shadow/projection layer offset by 6x velocity
+FUN_0040b5d0  bomb_eff_draw_24x3           draw 24 slots with three sub-layers each
+FUN_0040f6b0  ecl_eval_param_pair             evaluate a pair of ECL parameters honouring the flag bits
