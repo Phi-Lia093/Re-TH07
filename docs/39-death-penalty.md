@@ -75,6 +75,7 @@ if (sht->bombs < +0x23f8)    //   上限 = .sht +0x04 = 3.0
 | 参数 | 值 | 含义 |
 |------|-----|------|
 | 死亡持续 | **999 帧**（约 16.6 秒 @60fps） | 死亡动画 + 重生等待 |
+| **复活无敌** | **40 帧**（`+0x23fc = 0x28`） | 由 `player_revive_reset` 设置 |
 | Bomb 恢复 | **+6** | 死亡后补偿 |
 | 惩罚值 | **200** | 传给 `FUN_0042f526` |
 | Bomb 上限 | `.sht + 0x04`（= 3.0） | 实测确认，见 §2.2 |
@@ -176,6 +177,43 @@ void FUN_0042f526(obj, amount)
 4. **樱点以 100 为单位** —— 不是百分比直接计算
 
 ---
+
+## 6.3 复活复位（`player_revive_reset`，第 69 轮补充）
+
+死亡/复活流程的最后一步：
+
+```c
+void player_revive_reset(player)
+{
+    // 1. 樱点结算进分数
+    delta = (cherry_current - cherry_base) * 10;
+    score += delta / 10;
+    ui_show_number(delta, 4);          // 浮动数字
+
+    // 2. 若在 Bomb 状态，重置 Bomb 相关
+    if (player->state == 1) {
+        scale_x = scale_y = 1.0;
+        anm_flag  = -1;
+        player->flags &= ~0x10;
+        player->bomb_len = 240;        // 0xf0
+        player->bombs    = sht->bombs; // 恢复满 Bomb
+    }
+
+    // 3. 恢复空闲状态
+    player->state    = 3;
+    player->invuln_len = 40;           // 0x28
+    player->invuln   = 40;             // 0x23fc
+    player->bomb_cd  = 0;              // +0x16a00 = -999 → 重置
+
+    // 4. 清除复活特效
+    if (player->revive_fx != 0) {
+        player->revive_fx->field_2cc = 0;
+        player->revive_fx = 0;
+    }
+}
+```
+
+**关键数值**：复活无敌 **40 帧**（约 0.67 秒）。
 
 ## 7. 待确认
 
