@@ -1,0 +1,6 @@
+# 批量审查 13：环绕弹、锁定、分裂
+FUN_0040c160  player_orb_draw            draw four orbs orbiting the player at pi/5 spacing
+FUN_00418120  enemy_find_largest         lock onto the largest live enemy (sprite height >= 60)
+FUN_004194e0  enemy_enter_split          switch enemies above y=352 within +/-16 of the player into state 1
+FUN_0041a210  obj_pool_init_409          initialise 0x199 object slots of 0x2d8 plus the shared sub-objects
+FUN_0041c1c0  obj_spawn_at               spawn an object of a given type at a position
