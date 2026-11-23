@@ -13,12 +13,34 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import glob
 import json
+import os
 import re
 import sys
 
 C_FILE = "th07.exe.c"
 PROFILE = "work/func_profile.json"
+SYM_DIR = "ghidra/symbols"
+DONE = "work/batch_review_done.txt"
+
+
+def load_named() -> set[str]:
+    """Addresses already named or already reviewed.
+
+    Without this the tool keeps re-offering functions that were named rounds
+    ago, which wastes a whole reading pass -- so skip both the symbol tables
+    and the reviewed list.
+    """
+    out: set[str] = set()
+    for path in glob.glob(f"{SYM_DIR}/[0-9]*.txt"):
+        for line in open(path, encoding="utf-8"):
+            m = re.match(r"^(FUN_[0-9a-f]{8})\s", line)
+            if m:
+                out.add(m.group(1))
+    if os.path.exists(DONE):
+        out.update(l.strip() for l in open(DONE) if l.strip())
+    return out
 
 HEAD_RE = re.compile(r"^(?:[a-zA-Z_][\w \*]*?)\s+(FUN_[0-9a-f]{8}|[A-Za-z_]\w*)\s*\(")
 
@@ -50,6 +72,7 @@ def main() -> int:
     prof = json.load(open(PROFILE, encoding="utf-8"))
     lines = open(C_FILE, encoding="utf-8", errors="replace").read().splitlines()
 
+    named = load_named()
     pick: list[str] = []
     if args.names:
         pick = args.names.split(",")
@@ -57,6 +80,8 @@ def main() -> int:
         for name, info in sorted(prof.items(),
                                  key=lambda kv: kv[1]["line"]):
             if not name.startswith("FUN_"):
+                continue
+            if name in named:
                 continue
             if args.range:
                 a = int(name.split("_")[1], 16)
