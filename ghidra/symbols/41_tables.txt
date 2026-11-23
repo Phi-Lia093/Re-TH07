@@ -1,0 +1,4 @@
+# 函数指针表
+DAT_00416c38  g_ecl_opcode_table     173 case-label addresses inside ecl_interpreter
+DAT_0049dfec  g_ecl_lerp_table       8 interpolation handlers, all ecl_lerp_var
+DAT_0049dd50  g_effect_action_table  26 engine actions callable from scripts
